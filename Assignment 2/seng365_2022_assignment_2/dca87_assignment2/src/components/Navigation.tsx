@@ -2,8 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import {Link} from "react-router-dom";
 import {Button} from "@mui/material";
+import {useUserStore} from "../Store";
 
 export default function Navigation() {
+    const users = useUserStore(state => state.user)
 
     return (
         <React.Fragment>
@@ -23,7 +25,7 @@ export default function Navigation() {
                     <Link to={"/auctions"}>Auctions</Link>
                 </Button>
                 <Button variant="contained">
-                    <Link to={"/users/1"}>My Profile</Link>
+                    <Link to={"/users/" + users.userId}>My Profile</Link>
                 </Button>
                 <Button variant="contained">
                     <Link to={"users/login"}>Login</Link>

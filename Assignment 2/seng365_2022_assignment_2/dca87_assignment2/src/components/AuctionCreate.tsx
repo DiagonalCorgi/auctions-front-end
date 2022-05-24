@@ -4,9 +4,12 @@ import {Alert, Button} from "@mui/material";
 import * as React from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {useUserStore} from "../Store";
 
 
 const AuctionCreate = () => {
+
+    const users = useUserStore(state => state.user)
 
     const navigate = useNavigate();
 
@@ -39,14 +42,17 @@ const AuctionCreate = () => {
     };
 
     const createAuction = () => {
-        axios.post('http://localhost:4941/api/v1/auctions', {title : title, description : description, categoryId: categoryId, endDate: endDate, reserve: reserve})
+        axios.post('http://localhost:4941/api/v1/auctions', {title : title, description : description, categoryId: categoryId, endDate: endDate, reserve: reserve}, {
+            headers: {
+                "X-Authorization": users.token
+            }})
             .then((response) => {
                 navigate('/auctions');
                 console.log(response.data);
             }, (error) => {
                 setErrorFlag(true)
                 setErrorMessage(error.toString())
-                console.log(error.toString() == "AxiosError: Request failed with status code 401");
+                console.log(error.toString());
             })
     }
 

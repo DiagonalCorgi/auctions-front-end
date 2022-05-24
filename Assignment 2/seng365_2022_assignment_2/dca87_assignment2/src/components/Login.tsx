@@ -4,8 +4,15 @@ import TextField from '@mui/material/TextField';
 import {Alert, Button} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import {useUserStore} from "../Store";
+
+
 
 const Login = () => {
+
+    const setUser = useUserStore(state => state.setUser)
+    const removeUser = useUserStore(state => state.removeUser)
+
     const navigate = useNavigate();
     const [errorFlag, setErrorFlag] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("")
@@ -24,8 +31,9 @@ const Login = () => {
         axios.post('http://localhost:4941/api/v1/users/login', {email: email, password: password})
             .then((response) => {
                 navigate('/users/' + response.data.userId);
-                console.log(response.data.token);
+                console.log(response.data);
                 setAuthToken(response.data.token);
+                setUser(response.data);
             }, (error) => {
             setErrorFlag(true)
             setErrorMessage(error.toString())
