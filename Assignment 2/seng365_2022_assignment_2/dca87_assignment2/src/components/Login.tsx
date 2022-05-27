@@ -10,6 +10,8 @@ import {useUserStore} from "../Store";
 
 const Login = () => {
 
+    const users = useUserStore(state => state.user)
+
     const setUser = useUserStore(state => state.setUser)
     const removeUser = useUserStore(state => state.removeUser)
 
@@ -28,9 +30,14 @@ const Login = () => {
     };
 
     const loginUser = () => {
-        axios.post('http://localhost:4941/api/v1/users/login', {email: email, password: password})
+        axios.post('http://localhost:4941/api/v1/users/login', {email: email, password: password},
+            {
+                headers: {
+                    "X-Authorization": users.token
+                }
+            })
             .then((response) => {
-                navigate('/users/' + response.data.userId);
+                navigate('/users/' + users.userId);
                 console.log(response.data);
                 setAuthToken(response.data.token);
                 setUser(response.data);

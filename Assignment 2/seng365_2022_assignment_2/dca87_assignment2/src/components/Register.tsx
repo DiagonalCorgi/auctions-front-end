@@ -5,8 +5,13 @@ import {Alert, AlertTitle, Button, Stack} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import User from "./User";
+import user from "./User";
+import {useUserStore} from "../Store";
 
 const Register = () => {
+
+    const users = useUserStore(state => state.user)
+    const setUser = useUserStore(state => state.setUser)
     const navigate = useNavigate();
     const [errorFlag, setErrorFlag] = React.useState(false)
     const [errorMessage, setErrorMessage] = React.useState("")
@@ -31,12 +36,35 @@ const Register = () => {
     };
 
 
-    const registerUser = () => {
-        axios.post('http://localhost:4941/api/v1/users/register', {firstName : firstName, lastName : lastName, email: email, password: password})
+    const loginUser = () => {
+        axios.post('http://localhost:4941/api/v1/users/login', {email: email, password: password},
+            {
+                headers: {
+                    "X-Authorization": users.token
+                }
+            })
             .then((response) => {
-                navigate('/users/login');
-                console.log(response);
+                setUser(response.data);
                 console.log(response.data);
+            }, (error) => {
+                setErrorFlag(true)
+                setErrorMessage(error.toString())
+            })
+    }
+
+
+    const registerUser = () => {
+        axios.post('http://localhost:4941/api/v1/users/register', {firstName : firstName, lastName : lastName, email: email, password: password},
+            {
+                headers: {
+                    "X-Authorization": users.token
+                }
+            })
+            .then((response) => {
+                setUser(response.data)
+                console.log(response);
+                loginUser()
+                navigate('/users/' + users.userId);
             }, (error) => {
                 setErrorFlag(true)
                 setErrorMessage(error.toString())
