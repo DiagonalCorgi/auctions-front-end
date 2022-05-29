@@ -20,36 +20,43 @@ import {DateTimePicker} from "@mui/x-date-pickers";
 
 const AuctionCreate = () => {
 
+    const [imageEdit, setImageEdit] = React.useState("");
+    const updateAuctionImageState = (event: any) => {
+        setImageEdit(event.target.files[0]);
+    };
+
     const users = useUserStore(state => state.user)
 
     const navigate = useNavigate();
     const [errorFlag, setErrorFlag] = React.useState(false)
     const [errorMessage, setErrorMessage] = React.useState("")
+    const [auctionId, setAuctionId] = React.useState(0);
 
     const [title, setTitle] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [categoryId, setCategoryId] = React.useState(1);
-    const [endDate, setEndDate] = React.useState(``);
-    const [reserve, setReserve] = React.useState(0);
-
     const updateTitleState = (event : any) => {
         setTitle(event.target.value);
     };
 
+    const [categoryId, setCategoryId] = React.useState(1);
     const updateCategoryIdState = (event : any) => {
         setCategoryId(event.target.value);
     };
 
+    const [description, setDescription] = React.useState("");
     const updateDescriptionState = (event : any) => {
         setDescription(event.target.value);
     };
 
+    const [endDate, setEndDate] = React.useState(``);
     const updateEndDateState = (event : any) => {
         setEndDate(event.target.value);
     };
+
+    const [reserve, setReserve] = React.useState(0);
     const updateReserveState = (event : any) => {
         setReserve(event.target.value);
     };
+
 
     const createAuction = () => {
         axios.post('http://localhost:4941/api/v1/auctions', {title : title, description : description, categoryId: categoryId, endDate: endDate, reserve: reserve}, {
@@ -59,12 +66,36 @@ const AuctionCreate = () => {
             .then((response) => {
                 navigate('/auctions');
                 console.log(response.data);
+                setAuctionId(response.data.auctionId)
             }, (error) => {
                 setErrorFlag(true)
                 setErrorMessage(error.toString())
                 console.log(error.toString());
             })
     }
+
+    const uploadAuctionImage = (image: any) => {
+        axios.put('http://localhost:4941/api/v1/auctions/' + auctionId + '/image', image,
+            {
+                headers: {
+                    "X-Authorization": users.token,
+                    "Content-Type": image.type
+                }
+            }
+        )
+            .then((response) => {
+                setErrorFlag(false)
+                setErrorMessage("")
+                navigate('/auctions/' + auctionId)
+                window.location.reload();
+            }, (error) => {
+                setErrorFlag(true)
+                setErrorMessage(error.toString())
+                console.log(error.toString());
+            })
+    }
+
+
 
 
     if(errorMessage == "AxiosError: Request failed with status code 401") {
@@ -77,7 +108,10 @@ const AuctionCreate = () => {
                 </Button>
             </div>
         )
-    } else
+    } else if (users.token !== "")
+    {
+
+    }
     return (
         <div>
             <h1>Create Auction</h1>
@@ -143,7 +177,21 @@ const AuctionCreate = () => {
                     <TextField label="Reserve" onChange={updateReserveState} value={reserve} focused/>
                 </div>
                 <div>
-                    <Button variant="contained" onClick={() =>  {createAuction()}}>Register</Button>
+                    <div>
+                        <label>Upload Auction Picture</label>
+                    </div>
+                    <label htmlFor="raised-button-file">
+                        <input
+                            accept="image/*"
+                            id="raised-button-file"
+                            multiple
+                            type="file"
+                            onChange={updateAuctionImageState}
+                        />
+                    </label>
+                </div>
+                <div>
+                    <Button variant="contained" onClick={() =>  {createAuction(); uploadAuctionImage(imageEdit)}}>Register</Button>
                 </div>
             </Box>
         </div>

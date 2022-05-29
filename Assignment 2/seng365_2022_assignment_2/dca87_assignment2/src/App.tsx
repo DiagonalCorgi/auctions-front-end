@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Auction from "./components/Auction";
 import AuctionCreate from "./components/AuctionCreate";
+import MyAuctions from "./components/MyAuctions";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             </div>
           <div>
             <Routes>
+                <Route path="/auctions/mine" element={<MyAuctions/>}/>
                 <Route path="/auctions/create" element={<AuctionCreate/>}/>
                 <Route path="/users/login" element={<Login/>}/>
                 <Route path="/users/register" element={<Register/>}/>

@@ -26,11 +26,13 @@ const Auction = () => {
     const [errorMessage, setErrorMessage] = React.useState("")
     const {id} = useParams();
     const [auction, setAuction] = React.useState<Auction>({
-            auctionId: 0, categoryId: 0, imageFilename: "", description: "", endDate: "", reserve: 0, sellerId: 0, title: ""
+        highestBid: 0, numBids: 0, sellerFirstName: "", sellerLastName: "",
+        auctionId: 0, categoryId: 0, imageFilename: "", description: "", endDate: "", reserve: 0, sellerId: 0, title: ""
         }
     )
 
     const [dialogAuction, setDialogAuction] = React.useState<Auction>({
+        highestBid: 0, numBids: 0, sellerFirstName: "", sellerLastName: "",
         auctionId: 0, categoryId: 0, description: "", endDate: "", imageFilename: "", reserve: 0, sellerId: 0, title: ""
     })
     const [openEditDialog, setOpenEditDialog] = React.useState(false);
@@ -92,6 +94,7 @@ const Auction = () => {
     };
     const handleEditDialogClose = () => {
         setDialogAuction({
+            highestBid: 0, numBids: 0, sellerFirstName: "", sellerLastName: "",
             auctionId: 0, categoryId: 0, description: "", endDate: "", imageFilename: "", reserve: 0, sellerId: 0, title: ""
         })
         setOpenEditDialog(false);
@@ -133,7 +136,11 @@ const Auction = () => {
     }
 
     const deleteAuction = (auction : Auction) => {
-        axios.delete('http://localhost:3000/api/users/' + auction.auctionId)
+        axios.delete('http://localhost:4941/api/v1/auctions/' + auction.auctionId, {
+            headers: {
+                "X-Authorization": users.token
+            }
+        })
             .then((response) => {
                 navigate('/auctions')
             }, (error) => {
@@ -163,6 +170,7 @@ const Auction = () => {
                 setErrorMessage(error.toString())
             })
     }
+
 
     React.useEffect(() => {
         getCategoryId();
@@ -261,24 +269,22 @@ const Auction = () => {
     const show_upload = () => {
         if (users.userId == auction.sellerId) {
             return (
-                <label htmlFor="raised-button-file">
-                    <input
-                        accept="image/*"
-                        id="raised-button-file"
-                        multiple
-                        type="file"
-                        onChange={updateAuctionImageState}
-                    />
-                </label>
-            )
-        }
-        if (imageEdit !== "") {
-            return (
-                <Button variant="outlined" onClick={() => {
-                    editAuctionNewImage(imageEdit)
-                }} autoFocus>
-                    Change Image
-                </Button>
+                <div>
+                    <label htmlFor="raised-button-file">
+                        <input
+                            accept="image/*"
+                            id="raised-button-file"
+                            multiple
+                            type="file"
+                            onChange={updateAuctionImageState}
+                        />
+                    </label>
+                    <Button variant="outlined" onClick={() => {
+                        editAuctionNewImage(imageEdit)
+                    }} autoFocus>
+                        Change Image
+                    </Button>
+                </div>
             )
         }
     }
@@ -408,6 +414,12 @@ const Auction = () => {
                     <Divider variant="middle">
                     </Divider>
                     <h2>Reserve: ${auction.reserve}</h2>
+                    <Divider variant="middle">
+                    </Divider>
+                    <h2>Highest Bid: ${auction.highestBid}</h2>
+                    <Divider variant="middle">
+                    </Divider>
+                    <h2>Number of Bids: {auction.numBids}</h2>
                     <Divider variant="middle">
                     </Divider>
                     {get_edit()}

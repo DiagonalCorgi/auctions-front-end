@@ -13,7 +13,6 @@ const Login = () => {
     const users = useUserStore(state => state.user)
 
     const setUser = useUserStore(state => state.setUser)
-    const removeUser = useUserStore(state => state.removeUser)
 
     const navigate = useNavigate();
     const [errorFlag, setErrorFlag] = React.useState(false);
@@ -37,7 +36,6 @@ const Login = () => {
                 }
             })
             .then((response) => {
-                navigate('/users/' + users.userId);
                 console.log(response.data);
                 setAuthToken(response.data.token);
                 setUser(response.data);
@@ -70,7 +68,11 @@ const Login = () => {
                 </div>
                 <div>
                     <Button variant="contained" onClick={() =>
-                    {loginUser()}}
+                    {
+                        loginUser();
+                        navigate('/auctions');
+                    }
+                    }
                     >Login</Button>
                 </div>
 
