@@ -3,19 +3,14 @@ import TextField from "@mui/material/TextField";
 import {
     Alert,
     Button,
-    FormControl,
-    FormHelperText,
-    InputAdornment,
     InputLabel,
     MenuItem,
-    NativeSelect,
     Select
 } from "@mui/material";
 import * as React from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {useUserStore} from "../Store";
-import {DateTimePicker} from "@mui/x-date-pickers";
 
 
 const AuctionCreate = () => {
@@ -82,7 +77,7 @@ const AuctionCreate = () => {
                 }
             }
         )
-            .then((response) => {
+            .then(() => {
                 setErrorFlag(false)
                 setErrorMessage("")
                 navigate('/auctions/' + auctionId)

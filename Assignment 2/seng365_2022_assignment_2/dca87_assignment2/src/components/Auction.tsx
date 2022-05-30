@@ -4,7 +4,6 @@ import {Link, useNavigate, useParams} from 'react-router-dom'
 import {
     Accordion,
     AccordionDetails, AccordionSummary,
-    Alert,
     Box,
     Button,
     Dialog,
@@ -25,8 +24,6 @@ import {
     TableRow,
     Typography
 } from "@mui/material";
-import User from "./User";
-import {Image} from "@mui/icons-material";
 import {useUserStore} from "../Store";
 import EditIcon from "@mui/icons-material/Edit";
 import TextField from "@mui/material/TextField";
@@ -87,7 +84,6 @@ const Auction = () => {
     const navigate = useNavigate();
     const [sellerFirstName, setSellerFirstName] = React.useState("");
     const [sellerLastName, setSellerLastName] = React.useState("");
-    const [categoryName, setCategoryName] = React.useState("");
 
     const setDefaultImage = () => {
         setAuctionImage("https://www.kindpng.com/picc/m/347-3477302_updating-icon-clipart-png-download-auction-white-icon.png");
@@ -174,10 +170,9 @@ const Auction = () => {
 
     const getCategoryId = () => {
         axios.get('http://localhost:4941/api/v1/auctions/categories?categoryId=' + auction.categoryId)
-            .then((response) => {
+            .then(() => {
                 setErrorFlag(false)
                 setErrorMessage("")
-                setCategoryName(response.data.name);
             }, (error) => {
                 setErrorFlag(true)
                 setErrorMessage(error.toString())
@@ -190,7 +185,7 @@ const Auction = () => {
                 "X-Authorization": users.token
             }
         })
-            .then((response) => {
+            .then(() => {
                 navigate('/auctions')
             }, (error) => {
                 setErrorFlag(true)
@@ -291,7 +286,7 @@ const Auction = () => {
                 }
             }
         )
-            .then((response) => {
+            .then(() => {
                 setErrorFlag(false)
                 setErrorMessage("")
                 navigate('/auctions/' + auction.auctionId)
@@ -387,7 +382,6 @@ const Auction = () => {
                 setErrorFlag(false)
                 setErrorMessage("")
                 setAuctionBids(response.data)
-                console.log(auctionBids.length == 0)
             }, (error) => {
                 setErrorFlag(true)
                 setErrorMessage(error.toString())
