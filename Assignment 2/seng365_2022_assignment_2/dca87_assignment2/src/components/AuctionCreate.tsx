@@ -64,9 +64,7 @@ const AuctionCreate = () => {
                 "X-Authorization": users.token
             }})
             .then((response) => {
-                navigate('/auctions');
-                console.log(response.data);
-                setAuctionId(response.data.auctionId)
+                uploadAuctionImage(response.data.auctionId, users.token, imageEdit)
             }, (error) => {
                 setErrorFlag(true)
                 setErrorMessage(error.toString())
@@ -74,11 +72,12 @@ const AuctionCreate = () => {
             })
     }
 
-    const uploadAuctionImage = (image: any) => {
+
+    const uploadAuctionImage = (auctionId: any, token: any, image: any) => {
         axios.put('http://localhost:4941/api/v1/auctions/' + auctionId + '/image', image,
             {
                 headers: {
-                    "X-Authorization": users.token,
+                    "X-Authorization": token,
                     "Content-Type": image.type
                 }
             }
@@ -94,7 +93,6 @@ const AuctionCreate = () => {
                 console.log(error.toString());
             })
     }
-
 
 
 
@@ -191,7 +189,7 @@ const AuctionCreate = () => {
                     </label>
                 </div>
                 <div>
-                    <Button variant="contained" onClick={() =>  {createAuction(); uploadAuctionImage(imageEdit)}}>Register</Button>
+                    <Button variant="contained" onClick={() =>  {createAuction();}}>Register</Button>
                 </div>
             </Box>
         </div>

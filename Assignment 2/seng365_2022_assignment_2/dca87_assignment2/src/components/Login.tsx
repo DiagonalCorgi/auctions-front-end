@@ -18,7 +18,6 @@ const Login = () => {
     const [errorFlag, setErrorFlag] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState("")
     const [email, setEmail] = React.useState("");
-    const [authToken, setAuthToken] = React.useState("");
     const [password, setPassword] = React.useState("");
 
     const updateEmailState = (event : any) => {
@@ -37,7 +36,6 @@ const Login = () => {
             })
             .then((response) => {
                 console.log(response.data);
-                setAuthToken(response.data.token);
                 setUser(response.data);
             }, (error) => {
             setErrorFlag(true)

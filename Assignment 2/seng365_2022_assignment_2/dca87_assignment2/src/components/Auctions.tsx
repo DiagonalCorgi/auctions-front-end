@@ -9,7 +9,7 @@ import {
     InputLabel,
     MenuItem,
     OutlinedInput, Pagination, PaginationItem, Paper,
-    Select, styled, TablePagination,
+    Select, styled, Table, TableBody, TableContainer, TableHead, TablePagination, TableRow,
     TextField, Typography
 } from "@mui/material";
 import Auction from "./Auction";
@@ -34,66 +34,211 @@ const Auctions = () => {
     const [errorMessage, setErrorMessage] = React.useState("");
 
 
-    const [sort, setSort] = React.useState("ALPHABETICAL_ASC");
+    const [sort, setSort] = React.useState("CLOSING_SOON");
     const updateSort = (Event: any) => {
         setSort(Event.target.value);
     }
 
-    const [state, setState] = React.useState({
-        Smartphones: true,
-        Computers: true,
-        Books: true,
-        CDs: true,
-        DVDs: true,
-        Motorbikes: true,
-        Bicycles: true,
-        FarmEquipment: true,
-        Jewellery: true,
-        Homeware: true,
-    });
-
-    const { Smartphones, Computers, Books, CDs, DVDs, Motorbikes, Bicycles, FarmEquipment, Jewellery, Homeware } = state;
-
-
-    const [categoryArray, setCategoryArray] = React.useState(["categoryIds=1",
-        "&categoryIds=2",
-        "&categoryIds=3",
-        "&categoryIds=4",
-        "&categoryIds=5",
-        "&categoryIds=6",
-        "&categoryIds=7",
-        "&categoryIds=8",
-        "&categoryIds=9",
-        "&categoryIds=10",
-        "&categoryIds=11",
-        "&categoryIds=12",
-        "&categoryIds=13",
-        "&categoryIds=14",
-        "&categoryIds=15",
-        "&categoryIds=16",
-        "&categoryIds=17",
-        "&categoryIds=18",
-        "&categoryIds=19",
-        "&categoryIds=20",
-        "&categoryIds=21",
-        "&categoryIds=22",
-        "&categoryIds=23",
-        "&categoryIds=24",
-        "&categoryIds=25"])
-
-    const [categorySearch, setCategorySearch] = React.useState("");
-    const [checked, setChecked] = React.useState(false);
-    const handleChange = (event: any) => {
-        setCategoryArray(categoryArray.splice(0, event.target.value));
-        setCategorySearch(categoryArray.join(''));
-        getAuctions();
-        setState({
-            ...state,
-            [event.target.value]: event.target.checked,
-        });
+    const [smartphone, setSmartphone] = React.useState("");
+    const filterSmartphone = (Event: any) => {
+        if (Event.target.checked) {
+            setSmartphone(Event.target.value);
+        } else {
+            setSmartphone("");
+        }
     }
-
-
+    const [computer, setComputer] = React.useState("");
+    const filterComputer = (Event: any) => {
+        if (Event.target.checked) {
+            setComputer(Event.target.value);
+        } else {
+            setComputer("");
+        }
+    }
+    const [books, setBooks] = React.useState("");
+    const filterBooks = (Event: any) => {
+        if (Event.target.checked) {
+            setBooks(Event.target.value);
+        } else {
+            setBooks("");
+        }
+    }
+    const [cd, setCd] = React.useState("");
+    const filterCd = (Event: any) => {
+        if (Event.target.checked) {
+            setCd(Event.target.value);
+        } else {
+            setCd("");
+        }
+    }
+    const [dvd, setDvd] = React.useState("");
+    const filterDvd = (Event: any) => {
+        if (Event.target.checked) {
+            setDvd(Event.target.value);
+        } else {
+            setDvd("");
+        }
+    }
+    const [motorbike, setMotorbike] = React.useState("");
+    const filterMotorbike = (Event: any) => {
+        if (Event.target.checked) {
+            setMotorbike(Event.target.value);
+        } else {
+            setMotorbike("");
+        }
+    }
+    const [bicycle, setBicycle] = React.useState("");
+    const filterBicycle = (Event: any) => {
+        if (Event.target.checked) {
+            setBicycle(Event.target.value);
+        } else {
+            setBicycle("");
+        }
+    }
+    const [farm, setFarm] = React.useState("");
+    const filterFarm = (Event: any) => {
+        if (Event.target.checked) {
+            setFarm(Event.target.value);
+        } else {
+            setFarm("");
+        }
+    }
+    const [jewellery, setJewellery] = React.useState("");
+    const filterJewellery = (Event: any) => {
+        if (Event.target.checked) {
+            setJewellery(Event.target.value);
+        } else {
+            setJewellery("");
+        }
+    }
+    const [homeware, setHomeware] = React.useState("");
+    const filterHomeware = (Event: any) => {
+        if (Event.target.checked) {
+            setHomeware(Event.target.value);
+        } else {
+            setHomeware("");
+        }
+    }
+    const [furniture, setFurniture] = React.useState("");
+    const filterFurniture = (Event: any) => {
+        if (Event.target.checked) {
+            setFurniture(Event.target.value);
+        } else {
+            setFurniture("");
+        }
+    }
+    const [watches, setWatches] = React.useState("");
+    const filterWatches = (Event: any) => {
+        if (Event.target.checked) {
+            setWatches(Event.target.value);
+        } else {
+            setWatches("");
+        }
+    }
+    const [instruments, setInstruments] = React.useState("");
+    const filterInstruments = (Event: any) => {
+        if (Event.target.checked) {
+            setInstruments(Event.target.value);
+        } else {
+            setInstruments("");
+        }
+    }
+    const [electronics, setElectronics] = React.useState("");
+    const filterElectronics = (Event: any) => {
+        if (Event.target.checked) {
+            setElectronics(Event.target.value);
+        } else {
+            setElectronics("");
+        }
+    }
+    const [office, setOffice] = React.useState("");
+    const filterOffice = (Event: any) => {
+        if (Event.target.checked) {
+            setOffice(Event.target.value);
+        } else {
+            setOffice("");
+        }
+    }
+    const [tablets, setTablets] = React.useState("");
+    const filterTablets = (Event: any) => {
+        if (Event.target.checked) {
+            setTablets(Event.target.value);
+        } else {
+            setTablets("");
+        }
+    }
+    const [paint, setPaint] = React.useState("");
+    const filterPaint = (Event: any) => {
+        if (Event.target.checked) {
+            setPaint(Event.target.value);
+        } else {
+            setPaint("");
+        }
+    }
+    const [bulk, setBulk] = React.useState("");
+    const filterBulk = (Event: any) => {
+        if (Event.target.checked) {
+            setBulk(Event.target.value);
+        } else {
+            setBulk("");
+        }
+    }
+    const [gaming, setGaming] = React.useState("");
+    const filterGaming = (Event: any) => {
+        if (Event.target.checked) {
+            setGaming(Event.target.value);
+        } else {
+            setGaming("");
+        }
+    }
+    const [hair, setHair] = React.useState("");
+    const filterHair = (Event: any) => {
+        if (Event.target.checked) {
+            setHair(Event.target.value);
+        } else {
+            setHair("");
+        }
+    }
+    const [perfume, setPerfume] = React.useState("");
+    const filterPerfume = (Event: any) => {
+        if (Event.target.checked) {
+            setPerfume(Event.target.value);
+        } else {
+            setPerfume("");
+        }
+    }
+    const [clothing, setClothing] = React.useState("");
+    const filterClothing = (Event: any) => {
+        if (Event.target.checked) {
+            setClothing(Event.target.value);
+        } else {
+            setClothing("");
+        }
+    }
+    const [lego, setLego] = React.useState("");
+    const filterLego = (Event: any) => {
+        if (Event.target.checked) {
+            setLego(Event.target.value);
+        } else {
+            setLego("");
+        }
+    }
+    const [figurines, setFigurines] = React.useState("");
+    const filterFigurines = (Event: any) => {
+        if (Event.target.checked) {
+            setFigurines(Event.target.value);
+        } else {
+            setFigurines("");
+        }
+    }
+    const [cars, setCars] = React.useState("");
+    const filterCars = (Event: any) => {
+        if (Event.target.checked) {
+            setCars(Event.target.value);
+        } else {
+            setCars("");
+        }
+    }
 
 
 
@@ -116,24 +261,29 @@ const Auctions = () => {
 
     const getAuctions = () => {
         if (search=="") {
-            axios.get('http://localhost:4941/api/v1/auctions?startIndex='+startIndex + "&sortBy=" + sort )
+            axios.get('http://localhost:4941/api/v1/auctions?startIndex='+startIndex +
+                smartphone + computer + books + cd + dvd + motorbike + bicycle + farm +
+                jewellery + homeware + furniture + watches + instruments + electronics
+                + office + tablets + paint + bulk + gaming + hair + perfume + clothing +
+                lego + figurines + cars + "&sortBy=" + sort )
                 .then((response) => {
                     setErrorFlag(false)
                     setErrorMessage("")
                     setAuctions(response.data.auctions)
-                    console.log(categoryArray.join(''));
                 }, (error) => {
                     setErrorFlag(true)
                     setErrorMessage(error.toString())
                 })
         }
         else {
-            axios.get('http://localhost:4941/api/v1/auctions?startIndex='+startIndex + '&q='+ search  + "&sortBy=" + sort)
+            axios.get('http://localhost:4941/api/v1/auctions?startIndex='+startIndex + '&q='+ search +
+                smartphone + computer + books + cd + dvd + motorbike + bicycle + farm + jewellery +
+                homeware + furniture + watches + instruments + electronics + office + tablets + paint +
+                bulk + gaming + hair + perfume + clothing + lego + figurines + cars + "&sortBy=" + sort)
                 .then((response) => {
                     setErrorFlag(false)
                     setErrorMessage("")
                     setAuctions(response.data.auctions)
-                    console.log(categoryArray.join(''));
                 }, (error) => {
                     setErrorFlag(true)
                     setErrorMessage(error.toString())
@@ -201,6 +351,7 @@ const Auctions = () => {
     }
 
     const [page, setPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
 
 
@@ -209,51 +360,40 @@ const Auctions = () => {
         return d.getDay();
     }
 
-    const category_filter = () => {
+    const convert_to_date = (day: any) => {
+        const d = new Date(day);
+        return (d.getHours() + ':' + d.getMinutes() + ',' + (d.getDay() + 1) + '/' + (d.getMonth() + 1) + '/'  + d.getFullYear());
+    }
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+    const pagination = () => {
         return (
-            <Grid
-                sx={{
-            p: 2,
-            margin: 'auto',
-            maxWidth: 500,
-            flexGrow: 1,
-            backgroundColor: "#111111"
-        }}
-        item>
-        <FormControlLabel control={<Checkbox checked={Smartphones} onChange={handleChange}/>} value={0} label="Smartphones" />
-        <FormControlLabel control={<Checkbox checked={Computers} onChange={handleChange}/>} value={1} label="Computers & Laptops" />
-        <FormControlLabel control={<Checkbox checked={Books} onChange={handleChange}/>} value={2} label="Books" />
-        <FormControlLabel control={<Checkbox checked={CDs} onChange={handleChange}/>} value={3} label="CDs" />
-        <FormControlLabel control={<Checkbox checked={DVDs} onChange={handleChange}/>} value={4} label="DVDs" />
-        <FormControlLabel control={<Checkbox checked={Motorbikes} onChange={handleChange}/>} value={5} label="Motorbikes" />
-        <FormControlLabel control={<Checkbox checked={Bicycles} onChange={handleChange}/>} value={6} label="Bicycles" />
-        <FormControlLabel control={<Checkbox checked={FarmEquipment} onChange={handleChange}/>} value={7} label="Farm Equipment" />
-        <FormControlLabel control={<Checkbox checked={Jewellery} onChange={handleChange}/>} value={8} label="Jewellery" />
-        <FormControlLabel control={<Checkbox checked={Homeware} onChange={handleChange}/>} value={9} label="Homeware" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={10} label="Furniture" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={11} label="Watches" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={12} label="Instruments" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={13} label="Electronics" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={14} label="Office Equipment" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={15} label="Tablets" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={16} label="Paintings & Sculptures" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={17} label="Bulk Items" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={18} label="Gaming Consoles" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={19} label="Hair Care" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={20} label="Perfume" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={21} label="Clothing" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={22} label="Lego" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={23} label="Figurines" />
-        <FormControlLabel control={<Checkbox checked={checked} onChange={handleChange}/>} value={24} label="Cars" />
-    </Grid>
-        )
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={auctions.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+            )
+
     }
 
     const list_of_auctions = () =>
     {
 
         return  auctions.map((item: Auction) =>
-           <tr>
+           <TableRow>
                <Grid container spacing={2}>
                    <Grid item>
                        <Typography gutterBottom variant="subtitle1" component="div">
@@ -269,18 +409,14 @@ const Auctions = () => {
                    <Grid item xs={12} sm container>
                        <Grid item xs container direction="column" spacing={2}>
                            <Grid item xs>
-                               <Link to={"/users/" + item.sellerId}>
                                    <Typography color="text.secondary" variant="body2">
                                       Seller: {item.sellerFirstName} {item.sellerLastName}
                                    </Typography>
-                               </Link>
                                <Typography color="text.secondary" variant="body2">
-                                   <Link to={"/users/" + item.sellerId}>
                                    <img src={'http://localhost:4941/api/v1/users/' + item.sellerId + '/image'} alt=""   onError={({ currentTarget }) => {
                                        currentTarget.onerror = null;
                                        currentTarget.src="https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png";
                                    }} width="200px" height="200px"/>
-                                   </Link>
                                </Typography>
                            </Grid>
                        </Grid>
@@ -288,22 +424,24 @@ const Auctions = () => {
                            <Typography variant="subtitle1" component="div">
                                Reserve: ${item.reserve}
                            </Typography>
-                           <Typography color="text.secondary" variant="body2">
+                           <Typography color="subtitle1" variant="subtitle1">
                                Category: {category_names_set(item.categoryId)}
                            </Typography>
-                           <Typography variant="body2" color="text.secondary">
-                               {convert_to_day(item.endDate)} Days left
+                           <Typography variant="subtitle1" color="text.secondary">
+                              Closing Date: {convert_to_date(item.endDate)}
                            </Typography>
-                           <Typography variant="body2" color="text.secondary">
+                           <Typography variant="subtitle1" color="text.secondary">
                                Number of Bids: {item.numBids}
                            </Typography>
-                           <Typography variant="body2" color="text.secondary">
-                               Current Bid: ${item.highestBid}
+                           <Typography variant="subtitle1" color="text.secondary">
+                               Current Highest Bid: ${item.highestBid}
                            </Typography>
                        </Grid>
                    </Grid>
                </Grid>
-           </tr>)
+               <Divider variant="middle">
+               </Divider>
+           </TableRow>)
     }
 
     if(errorFlag) {
@@ -321,12 +459,12 @@ const Auctions = () => {
                 <div className="App-header">
                     <Grid item xs={8} rowSpacing={1}>
                         <Item><h1>Auctions</h1>
-                            <Button variant="contained">
+                            <Button variant="contained" color='warning'>
                                 <Link to={"/auctions/create"}> Create Auction </Link>
                             </Button>
                         </Item>
                     </Grid>
-                        <Grid container item xs={8}>
+                        <Grid item xs={4}>
                             <TextField label="Search"
                                        onChange={updateSearchState}
                                        value={search}
@@ -336,34 +474,71 @@ const Auctions = () => {
                                                </InputAdornment>),
                                        }}
                                        variant="outlined" />
-                            <Select
-                                value={sort}
-                                onChange={updateSort}
-                                label="sort"
-                            variant="outlined">
-                                <MenuItem value={"ALPHABETICAL_ASC"}>Title: A-Z</MenuItem>
-                                <MenuItem value={"ALPHABETICAL_DESC"}>Title: Z-A</MenuItem>
-                                <MenuItem value={"CLOSING_SOON"}>Closing Soon</MenuItem>
-                                <MenuItem value={"CLOSING_LAST"}>Closing Last</MenuItem>
-                                <MenuItem value={"BIDS_ASC"}>Lowest Bid</MenuItem>
-                                <MenuItem value={"BIDS_DESC"}>Highest Bid</MenuItem>
-                                <MenuItem value={"RESERVE_ASC"}>Lowest Reserve</MenuItem>
-                                <MenuItem value={"RESERVE_DESC"}>Highest Reserve</MenuItem>
-                            </Select>
-                            <Button variant="contained" onClick={getAuctions} >
-                                <Link  to={"/auctions"}>Search</Link>
-                            </Button>
+                            <Paper sx={{ width: '100%', mb: 10 }}>
+                            <Grid item>
+                                <FormControlLabel value={'&categoryIds=1'} control={<Checkbox onChange={filterSmartphone}/>} label="Smartphones" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=2'} control={<Checkbox onChange={filterComputer}/>} label="Computers & Laptops" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=3'} control={<Checkbox onChange={filterBooks}/>} label="Books" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=4'} control={<Checkbox onChange={filterCd}/>} label="CDs" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=5'} control={<Checkbox onChange={filterDvd}/>} label="DVDs" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=6'} control={<Checkbox onChange={filterMotorbike}/>} label="Motorbikes" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=7'} control={<Checkbox onChange={filterBicycle}/>} label="Bicycles" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=8'} control={<Checkbox onChange={filterFarm}/>} label="Farm Equipment" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=9'} control={<Checkbox onChange={filterJewellery}/>} label="Jewellery" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=10'} control={<Checkbox onChange={filterHomeware}/>} label="Homeware" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=11'} control={<Checkbox onChange={filterFurniture}/>} label="Furniture" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=12'} control={<Checkbox onChange={filterWatches}/>} label="Watches" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=13'} control={<Checkbox onChange={filterInstruments}/>} label="Instruments" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=14'} control={<Checkbox onChange={filterElectronics}/>} label="Electronics" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=15'} control={<Checkbox onChange={filterOffice}/>} label="Office Equipment" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=16'} control={<Checkbox onChange={filterTablets}/>} label="Tablets" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=17'} control={<Checkbox onChange={filterPaint}/>} label="Paintings & Sculptures" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=18'} control={<Checkbox onChange={filterBulk}/>} label="Bulk Items" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=19'} control={<Checkbox onChange={filterGaming}/>} label="Gaming Consoles" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=20'} control={<Checkbox onChange={filterHair}/>} label="Hair Care" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=21'} control={<Checkbox onChange={filterPerfume}/>} label="Perfume" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=22'} control={<Checkbox onChange={filterClothing}/>} label="Clothing" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=23'} control={<Checkbox onChange={filterLego}/>} label="Lego" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=24'} control={<Checkbox onChange={filterFigurines}/>} label="Figurines" labelPlacement="top"/>
+                                <FormControlLabel value={'&categoryIds=25'} control={<Checkbox onChange={filterCars}/>} label="Cars" labelPlacement="top"/>
+                            </Grid>
+                            </Paper>
+                            <Grid>
+                                <Select
+                                    value={sort}
+                                    onChange={updateSort}
+                                    label="sort"
+                                    variant="outlined">
+                                    <MenuItem value={"ALPHABETICAL_ASC"}>Title: A-Z</MenuItem>
+                                    <MenuItem value={"ALPHABETICAL_DESC"}>Title: Z-A</MenuItem>
+                                    <MenuItem value={"CLOSING_SOON"}>Closing Soon</MenuItem>
+                                    <MenuItem value={"CLOSING_LAST"}>Closing Last</MenuItem>
+                                    <MenuItem value={"BIDS_ASC"}>Lowest Bid</MenuItem>
+                                    <MenuItem value={"BIDS_DESC"}>Highest Bid</MenuItem>
+                                    <MenuItem value={"RESERVE_ASC"}>Lowest Reserve</MenuItem>
+                                    <MenuItem value={"RESERVE_DESC"}>Highest Reserve</MenuItem>
+                                </Select>
+                                <Button variant="contained" color='warning' onClick={getAuctions} >
+                                    <Link  to={"/auctions"}>Search</Link>
+                                </Button>
+                            </Grid>
                         </Grid>
-                    <table className="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Auction</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {list_of_auctions()}
-                        </tbody>
-                    </table>
+                    <Paper sx={{ width: '100%', mb: 10 }}>
+                    <TableContainer>
+                        <Table
+                            sx={{ minWidth: 750 }}
+                            aria-labelledby="tableTitle"
+                            size={'medium'}>
+                            <TableHead>
+                                Results
+                            </TableHead>
+                            <TableBody>
+                                {list_of_auctions()}
+                            </TableBody>
+                        </Table>
+
+                    </TableContainer>
+                </Paper>
                     <div>
                         <Button value={0} onClick={updateStartIndex}>
                             1

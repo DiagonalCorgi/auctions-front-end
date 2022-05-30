@@ -35,6 +35,34 @@ const Register = () => {
         setPassword(event.target.value);
     };
 
+    const [imageEdit, setImageEdit] = React.useState("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png");
+    const updateUserImageState = (event: any) => {
+        setImageEdit(event.target.files[0]);
+    };
+
+    const setUserNewImage = (userId : any, token: any, image: any) => {
+        console.log(userId)
+        axios.put('http://localhost:4941/api/v1/users/' + userId + '/image', image,
+            {
+                headers: {
+                    "X-Authorization": token,
+                    "Content-Type": image.type
+                }
+            }
+        )
+            .then(() => {
+                setErrorFlag(false)
+                setErrorMessage("")
+                navigate('/users/' + userId)
+                window.location.reload();
+            }, (error) => {
+                setErrorFlag(true)
+                setErrorMessage(error.toString())
+                console.log(error.toString());
+            })
+    }
+
+
 
     const loginUser = () => {
         axios.post('http://localhost:4941/api/v1/users/login', {email: email, password: password},
@@ -44,8 +72,9 @@ const Register = () => {
                 }
             })
             .then((response) => {
-                setUser(response.data);
-                console.log(response.data);
+                setUser(response.data)
+                console.log(response.data.userId);
+                setUserNewImage(response.data.userId, response.data.token, imageEdit)
             }, (error) => {
                 setErrorFlag(true)
                 setErrorMessage(error.toString())
@@ -54,22 +83,37 @@ const Register = () => {
 
 
     const registerUser = () => {
-        axios.post('http://localhost:4941/api/v1/users/register', {firstName : firstName, lastName : lastName, email: email, password: password},
-            {
-                headers: {
-                    "X-Authorization": users.token
-                }
-            })
-            .then((response) => {
-                setUser(response.data)
-                console.log(response);
-                loginUser()
-                navigate('/users/' + users.userId);
-            }, (error) => {
-                setErrorFlag(true)
-                setErrorMessage(error.toString())
-            })
+            axios.post('http://localhost:4941/api/v1/users/register', {firstName : firstName, lastName : lastName, email: email, password: password},
+                {
+                    headers: {
+                        "X-Authorization": users.token
+                    }
+                })
+                .then((response) => {
+                    loginUser()
+                }, (error) => {
+                    setErrorFlag(true)
+                    setErrorMessage(error.toString())
+                })
     }
+
+    const show_password_error = () => {
+        if(password.length < 6) {
+            return (
+                <div>
+                    <Alert severity="error">Please make sure the password is at least 6 characters long</Alert>
+                </div>
+            )
+        } else {
+            return(
+                <div>
+                    <Button variant="contained" color="error" onClick={() =>  {registerUser()}}
+                    >Register</Button>
+                </div>
+            )
+        }
+    }
+
 
     if(errorFlag) {
         return (
@@ -81,8 +125,6 @@ const Register = () => {
                     Try Again
                 </Button>
             </div>
-
-
         )
     } else
         return (
@@ -103,11 +145,20 @@ const Register = () => {
                     </div>
                     <div>
                         <TextField id="password" label="password" color="error" type="password" onChange={updatePasswordState} value={password} focused/>
+                        {show_password_error()}
                     </div>
                     <div>
-                        <Button variant="contained" color="error" onClick={() =>  {registerUser()}}
-                        >Register</Button>
+                        <label>Upload Profile Picture</label>
                     </div>
+                    <label htmlFor="raised-button-file">
+                        <input
+                            accept="image/*"
+                            id="raised-button-file"
+                            multiple
+                            type="file"
+                            onChange={updateUserImageState}
+                        />
+                    </label>
                 </Box></>
         );
 }

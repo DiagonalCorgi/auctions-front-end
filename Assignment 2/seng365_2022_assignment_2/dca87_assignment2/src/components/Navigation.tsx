@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import {Link, useNavigate, useParams} from "react-router-dom";
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import {useUserStore} from "../Store";
 import SellIcon from '@mui/icons-material/Sell';
 import axios from "axios";
@@ -55,10 +55,10 @@ export default function Navigation() {
         if (users.token == "") {
             return (
                 <div>
-                    <Button variant="contained">
+                    <Button variant="outlined" color='warning'>
                         <Link to={"users/login"}>Login</Link>
                     </Button>
-                    <Button variant="contained">
+                    <Button variant="contained" color='warning'>
                         <Link to={"users/register"}>Register</Link>
                     </Button>
                 </div>
@@ -73,10 +73,10 @@ export default function Navigation() {
                     justifyContent: 'flex-end',
                     p: 1,
                     m: 1,
-                    backgroundColor: "#282c34",
+                    backgroundColor: "#292d3e",
                     borderRadius: 1,
                 }}>
-                    <Button variant="contained">
+                    <Button variant="contained" color='warning'>
                         <Link to={"/auctions"}>
                             <SellIcon />
                             Auctions</Link>

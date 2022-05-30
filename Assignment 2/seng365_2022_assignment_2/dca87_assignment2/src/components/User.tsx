@@ -3,7 +3,7 @@ import axios from "axios"
 import {Link, useNavigate, useParams, useSearchParams} from 'react-router-dom'
 import TextField from '@mui/material/TextField';
 import EditIcon from "@mui/icons-material/Edit";
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
+import {Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import {useUserStore} from "../Store";
 
 
@@ -103,6 +103,11 @@ const User = () => {
                     }}>
                         Edit
                     </Button>
+                    <Button variant="contained" onClick={() => {
+                        deleteUserImage()
+                    }}>
+                        Delete User Profile Image
+                    </Button>
                     <Dialog
                         open={openEditDialog}
                         onClose={handleEditDialogClose}
@@ -138,11 +143,7 @@ const User = () => {
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleEditDialogClose}>Cancel</Button>
-                            <Button variant="outlined" color="error" onClick={() => {
-                                editUser()
-                            }} autoFocus>
-                                Edit
-                            </Button>
+                            {show_password_error()}
                         </DialogActions>
                     </Dialog>
                 </div>
@@ -187,6 +188,40 @@ const User = () => {
                 setErrorFlag(true)
                 setErrorMessage(error.toString())
             })
+    }
+
+    const deleteUserImage = () => {
+        axios.delete('http://localhost:4941/api/v1/users/' + params.id + '/image', {
+            headers: {
+                "X-Authorization": users.token
+            }
+        })
+            .then(() => {
+                setErrorFlag(false)
+                setErrorMessage("")
+                setImageEdit("https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png")
+                window.location.reload();
+            }, (error) => {
+                setErrorFlag(true)
+                setErrorMessage(error.toString())
+            })
+    }
+
+    const show_password_error = () => {
+        if(passwordEdit.length < 6) {
+            return (
+                <div>
+                    <Alert severity="error">Please make sure the password is at least 6 characters long</Alert>
+                </div>
+            )
+        } else {
+            return(
+                <div>
+                    <Button variant="contained" color="error" onClick={() =>  {editUser()}}
+                    >Edit</Button>
+                </div>
+            )
+        }
     }
 
 
